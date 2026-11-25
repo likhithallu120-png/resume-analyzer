@@ -20,7 +20,7 @@ except ImportError:
 def get_gemini_client(api_key: Optional[str] = None) -> Any:
     """
     Initializes and returns a google-genai Client.
-    Prioritizes passed api_key, falls back to GEMINI_API_KEY environment variable.
+    Prioritizes passed api_key, falls back to GEMINI_API_KEY environment variable or Streamlit secrets.
     """
     if genai is None:
         raise ImportError(
@@ -29,8 +29,16 @@ def get_gemini_client(api_key: Optional[str] = None) -> Any:
 
     resolved_key = (api_key or "").strip() or os.environ.get("GEMINI_API_KEY", "").strip()
     if not resolved_key:
+        try:
+            import streamlit as st
+            if "GEMINI_API_KEY" in st.secrets:
+                resolved_key = str(st.secrets["GEMINI_API_KEY"]).strip()
+        except Exception:
+            pass
+
+    if not resolved_key:
         raise ValueError(
-            "Gemini API key is required. Please enter your API key in the sidebar or set GEMINI_API_KEY."
+            "Gemini API key is required. Set GEMINI_API_KEY in environment or Streamlit secrets."
         )
 
     return genai.Client(api_key=resolved_key)

@@ -134,6 +134,13 @@ if "selected_sample_role" not in st.session_state:
 
 # --- SIDEBAR CONFIGURATION ---
 api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+if not api_key:
+    try:
+        if "GEMINI_API_KEY" in st.secrets:
+            api_key = str(st.secrets["GEMINI_API_KEY"]).strip()
+    except Exception:
+        pass
+
 selected_model = "gemini-3.5-flash"
 
 with st.sidebar:
@@ -141,7 +148,7 @@ with st.sidebar:
     if api_key:
         st.success("🟢 AI Engine Online & Ready")
     else:
-        st.warning("⚠️ AI API Key not configured in environment.")
+        st.warning("⚠️ AI API Key not configured in environment or Streamlit Secrets.")
 
     st.divider()
 
