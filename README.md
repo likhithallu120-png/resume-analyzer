@@ -85,24 +85,22 @@ pip install -r requirements.txt
 
 ### 3. Configure Gemini API Key
 
-You can configure your key in two ways:
-
-1. **In the Streamlit Sidebar (Interactive)**:
-   - Enter your key directly in the sidebar password box in the web interface.
-2. **Via `.env` file**:
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` and set:
-   ```env
-   GEMINI_API_KEY=your_actual_gemini_api_key_here
-   ```
+Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
+```
+Edit `.env` and set:
+```env
+GEMINI_API_KEY=your_actual_gemini_api_key_here
+```
+The application automatically and securely loads the API key from your environment upon startup without exposing it in the browser UI.
 
 ### 4. Run the Streamlit App
 
 ```bash
 streamlit run app.py
 ```
+*(On Windows, you can also simply run `.\run.ps1` or double-click `run.bat`).*
 
 The app will open automatically in your browser at `http://localhost:8501`.
 
@@ -112,7 +110,6 @@ The app will open automatically in your browser at `http://localhost:8501`.
 
 1. **Option A: 1-Click Demo**:
    - In the sidebar under **⚡ 1-Click Demo Profiles**, select a demo role (e.g. `Full-Stack & AI Engineer`) and click **Load Demo**.
-   - Enter your Gemini API key in the sidebar.
    - Click the primary **⚡ Analyze Resume against Job Description** button.
 
 2. **Option B: Upload your own PDF**:
